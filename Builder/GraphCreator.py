@@ -107,7 +107,7 @@ class Graph:
         for node in self.nodes:
             for line_node in node.adjacent_nodes.keys():
                 lines.add((node, line_node))
-        return lines
+        return list(lines)
 
     def display(self):
         """
@@ -199,6 +199,7 @@ class Graph:
 
 
 NODE_CLASSES = {
+    "Node": Node,
     "BFS": BFSNode,
     "DFS": DFSNode,
     "Dijkstra": DijkstraNode

@@ -3,6 +3,7 @@ from Algorithms.DFS import DFS
 from Algorithms.BFS import BFS
 from Algorithms.Dijkstra import Dijkstra
 from Algorithms.BellmamFord import Bellman_Ford
+from Algorithms.Kruskal import Kruskal
 from Builder.GraphBuilder import *
 
 def build_graph(option, nodes_amount=5, is_directed=False, has_weights=False, node_class="BFS"):
@@ -13,10 +14,10 @@ def build_graph(option, nodes_amount=5, is_directed=False, has_weights=False, no
         app.run()
         return app.graph
 
-graph = build_graph("random", is_directed=True, has_weights=True, node_class="Dijkstra")
+graph = build_graph("random", is_directed=False, has_weights=True, node_class="Dijkstra")
 # graph = Graph.load("test")
 graph.print()
 graph.display()
-print(Bellman_Ford(graph, graph.nodes[0]))
+Kruskal(graph).display()
 graph.print_matrix()
 
