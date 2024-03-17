@@ -42,6 +42,12 @@ class DFSNode(Node):
         self.d: int = None
         self.f: int = None
 
+class DijkstraNode(Node):
+    def __init__(self, label):
+        super().__init__(label)
+        self.pie: Node = None
+        self.d: int = None
+
 class Graph:
     def __init__(self, directed=False, weighted=False, NodeClass=BFSNode):
         self.NodeClass = NodeClass
@@ -187,7 +193,8 @@ class Graph:
 
 NODE_CLASSES = {
     "BFS": BFSNode,
-    "DFS": DFSNode
+    "DFS": DFSNode,
+    "Dijkstra": DijkstraNode
 }
 
 
