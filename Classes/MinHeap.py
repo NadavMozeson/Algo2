@@ -13,6 +13,9 @@ class MinHeap:
         self.compare = compare_nodes
         self._build_heap()
 
+    def __repr__(self):
+        return f"MinHeap with values: {self.heap}"
+
     def insert(self, node):
         self.heap.append(node)
         self._percolate_up(len(self.heap) - 1)

@@ -3,6 +3,9 @@ class DDS:
         self.parent = {}
         self.rank = {}
 
+    def __repr__(self):
+        return f"DDS with parents: {set(self.parent.values())}"
+
     def make_set(self, x):
         if x not in self.parent:
             self.parent[x] = x
@@ -10,7 +13,7 @@ class DDS:
 
     def find(self, x):
         if x != self.parent[x]:
-            self.parent[x] = self.find(self.parent[x])  # Path compression
+            self.parent[x] = self.find(self.parent[x])
         return self.parent[x]
 
     def merge(self, a, b):

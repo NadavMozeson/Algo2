@@ -2,6 +2,9 @@ class CustomQueue:
     def __init__(self):
         self.items = []
 
+    def __repr__(self):
+        return f"Queue with items: {self.items}"
+
     def enqueue(self, item):
         """
         Add an item to the end of the queue.

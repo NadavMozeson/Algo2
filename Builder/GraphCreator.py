@@ -23,6 +23,9 @@ class Node:
         self.label: str = label
         self.adjacent_nodes: OrderedDict[Node, int] = OrderedDict()
 
+    def __repr__(self):
+        return f"Node '{self.label}'"
+
     def add_adj(self, node, weight=None):
         self.adjacent_nodes[node] = weight
         self.adjacent_nodes = OrderedDict(sorted(self.adjacent_nodes.items(), key=lambda item: item[0].label))
@@ -42,11 +45,13 @@ class DFSNode(Node):
         self.d: int = None
         self.f: int = None
 
+
 class DijkstraNode(Node):
     def __init__(self, label):
         super().__init__(label)
         self.pie: Node = None
         self.d: int = None
+
 
 class Graph:
     def __init__(self, directed=False, weighted=False, NodeClass=BFSNode):
@@ -54,6 +59,9 @@ class Graph:
         self.nodes: List[Node] = []
         self.directed: bool = directed
         self.weighted: bool = weighted
+
+    def __repr__(self):
+        return f"Graph with Nodes:{self.nodes}"
 
     def add_node(self, node: str):
         """
