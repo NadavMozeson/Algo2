@@ -29,7 +29,7 @@ class GraphBuilderApp:
 
     def add_node(self, event):
         x, y = event.x, event.y
-        label = LETTERS[len(self.nodes)]
+        label = simpledialog.askstring("Enter label", "Enter the label for the node:")
         self.nodes[label] = (x, y)
         self.graph.add_node(label)
         self.canvas.create_oval(x - 40, y - 40, x + 40, y + 40, fill="#1f78b4", outline="")

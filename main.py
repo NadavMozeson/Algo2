@@ -11,7 +11,7 @@ def build_graph(option, nodes_amount=5, is_directed=False, has_weights=False, no
         app.run()
         return app.graph
 
-graph = build_graph("random", is_directed=True, has_weights=False, node_class="DFS")
+graph = build_graph("random", is_directed=False, has_weights=False, node_class="DFS")
 graph.print()
 DFS(g=graph)
 graph.print_matrix()

@@ -27,7 +27,6 @@ class Node:
         self.adjacent_nodes[node] = weight
         self.adjacent_nodes = OrderedDict(sorted(self.adjacent_nodes.items(), key=lambda item: item[0].label))
 
-
 class BFSNode(Node):
     def __init__(self, label):
         super().__init__(label)
