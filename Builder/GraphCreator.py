@@ -102,6 +102,13 @@ class Graph:
         node2 = self.get_node(node2)
         return node2 in node1.adjacent_nodes
 
+    def get_all_lines(self):
+        lines = set()
+        for node in self.nodes:
+            for line_node in node.adjacent_nodes.keys():
+                lines.add((node, line_node))
+        return lines
+
     def display(self):
         """
         Displays the graph in an image form in SciView

@@ -1,7 +1,8 @@
 from Builder.GraphCreator import *
-from Algorithms.DFS import *
-from Algorithms.BFS import *
-from Algorithms.Dijkstra import *
+from Algorithms.DFS import DFS
+from Algorithms.BFS import BFS
+from Algorithms.Dijkstra import Dijkstra
+from Algorithms.BellmamFord import Bellman_Ford
 from Builder.GraphBuilder import *
 
 def build_graph(option, nodes_amount=5, is_directed=False, has_weights=False, node_class="BFS"):
@@ -12,10 +13,10 @@ def build_graph(option, nodes_amount=5, is_directed=False, has_weights=False, no
         app.run()
         return app.graph
 
-# graph = build_graph("draw", is_directed=False, has_weights=True, node_class="Dijkstra")
-graph = Graph.load("test")
+graph = build_graph("random", is_directed=True, has_weights=True, node_class="Dijkstra")
+# graph = Graph.load("test")
 graph.print()
 graph.display()
-Dijkstra(graph, graph.nodes[0])
+print(Bellman_Ford(graph, graph.nodes[0]))
 graph.print_matrix()
 
