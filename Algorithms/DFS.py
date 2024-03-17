@@ -10,6 +10,7 @@ def DFS(g: Graph):
         if v.color == "White":
             DFS_VISIT(g, v)
 
+
 def DFS_VISIT(g: Graph, u: Node):
     global time
     u.color = "Gray"
