@@ -205,6 +205,24 @@ class Graph:
         with open(filename, 'rb') as file:
             return pickle.load(file)
 
+    def has_cycle(self):
+        for start_node in self.nodes:
+            stack = [(start_node, None)]
+            visited = set()
+
+            while stack:
+                current_node, parent = stack.pop()
+
+                if current_node in visited:
+                    return True
+                visited.add(current_node)
+
+                for neighbour in current_node.adjacent_nodes:
+                    if neighbour != parent:
+                        stack.append((neighbour, current_node))
+
+        return False
+
 
 NODE_CLASSES = {
     "Node": Node,
@@ -215,7 +233,7 @@ NODE_CLASSES = {
 
 
 def generate_random_graph(num_of_nodes, is_directed=False, has_weight=False, NodeClass="BFS", min_weight=0,
-                          max_weight=10, lines_multiplier=3):
+                          max_weight=10, lines_multiplier=3, has_cycle=True):
     """
     The function generate random graph from the given parameters and returns it as a Graph object
 
@@ -226,6 +244,7 @@ def generate_random_graph(num_of_nodes, is_directed=False, has_weight=False, Nod
     :param min_weight: minimum weight for each line (Default: 0)
     :param max_weight: maximum weight for each line (Default: 10)
     :param lines_multiplier: a multiplier of amount of lines to generate (Default: 3)
+    :param has_cycle: can the graph have a cycle (Default: True)
     :return: returns a random generated graph as Graph object
     """
     graph = Graph(directed=is_directed, weighted=has_weight, NodeClass=NODE_CLASSES[NodeClass])
@@ -243,4 +262,11 @@ def generate_random_graph(num_of_nodes, is_directed=False, has_weight=False, Nod
                 graph.add_line(node1, node2, weight=weight)
             else:
                 graph.add_line(node1, node2)
-    return graph
+    if not has_cycle:
+        if not graph.has_cycle():
+            return graph
+        else:
+            return generate_random_graph(num_of_nodes, is_directed, has_weight, NodeClass, min_weight, max_weight,
+                                         lines_multiplier, has_cycle)
+    else:
+        return graph
