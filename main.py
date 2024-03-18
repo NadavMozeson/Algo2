@@ -2,6 +2,7 @@ from Builder.GraphCreator import *
 from Algorithms.DFS import DFS
 from Algorithms.BFS import BFS
 from Algorithms.TopologicSort import topologic_sort
+from Algorithms.KosarajuSharir import KosarajuSharir
 from Algorithms.Dijkstra import Dijkstra
 from Algorithms.BellmamFord import Bellman_Ford
 from Algorithms.Kruskal import Kruskal
@@ -19,5 +20,5 @@ graph = build_graph("random", is_directed=True, has_weights=False, node_class="D
 # graph = Graph.load("test")
 graph.print()
 graph.display()
-print(topologic_sort(graph))
+print(KosarajuSharir(graph))
 graph.print_matrix()
