@@ -1,5 +1,6 @@
 from Builder.GraphCreator import Graph, Node
 from Algorithms.TopologicSort import topologic_sort
+from Classes.DDS import DDS
 
 time = 0
 
@@ -22,7 +23,9 @@ def KosarajuSharir(G: Graph):
             DFS_VISIT(v, tree)
             trees.append(tree)
 
-    return trees
+    forest = DDS()
+    forest.array_to_DDS(trees)
+    return forest
 
 
 def transpose_graph(G: Graph):

@@ -16,9 +16,8 @@ def build_graph(option, nodes_amount=5, is_directed=False, has_weights=False, no
         app.run()
         return app.graph
 
-graph = build_graph("random", is_directed=True, has_weights=False, node_class="DFS", has_cycle=False)
-# graph = Graph.load("test")
+graph = build_graph("draw", is_directed=True, has_weights=False, node_class="DFS", has_cycle=False)
 graph.print()
 graph.display()
-print(KosarajuSharir(graph))
+KosarajuSharir(graph).print_dds_tree()
 graph.print_matrix()

@@ -24,7 +24,7 @@ class Node:
         self.adjacent_nodes: OrderedDict[Node, int] = OrderedDict()
 
     def __repr__(self):
-        return f"Node '{self.label}'"
+        return f"{circle_value(self.label)}"
 
     def add_adj(self, node, weight=None):
         self.adjacent_nodes[node] = weight
@@ -270,3 +270,14 @@ def generate_random_graph(num_of_nodes, is_directed=False, has_weight=False, Nod
                                          lines_multiplier, has_cycle)
     else:
         return graph
+
+def circle_value(char):
+    if isinstance(char, int):
+        if 0 <= char <= 9:
+            return chr(0x245f + char)
+    elif isinstance(char, str) and len(char) == 1:
+        char = char.lower()
+        if 'a' <= char <= 'z':
+            return chr(0x24b6 + ord(char) - ord('a'))
+    else:
+        return char
