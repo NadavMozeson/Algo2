@@ -1,8 +1,10 @@
 from Builder.GraphCreator import Graph, Node
 from Classes.MinHeap import MinHeap
 
+def weight_function(u: Node, v: Node):
+    return u.adjacent_nodes[v]
 
-def Prim(G: Graph, r: Node):
+def Prim(G: Graph, r: Node, w=weight_function):
     for u in G.nodes:
         u.pie = None
         u.d = float('inf')
@@ -14,6 +16,3 @@ def Prim(G: Graph, r: Node):
             if (Q.value_exists(v)) and (w(u, v) < v.d):
                 v.pie = u
                 v.d = w(u, v)
-
-def w(u: Node, v: Node):
-    return u.adjacent_nodes[v]
