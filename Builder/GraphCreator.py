@@ -269,13 +269,16 @@ def generate_random_graph(num_of_nodes, is_directed=False, has_weight=False, Nod
     else:
         return graph
 
-def circle_value(char):
-    if isinstance(char, int):
-        if 0 <= char <= 9:
-            return chr(0x245f + char)
-    elif isinstance(char, str) and len(char) == 1:
-        char = char.lower()
-        if 'a' <= char <= 'z':
-            return chr(0x24b6 + ord(char) - ord('a'))
+def circle_value(input_char):
+    if isinstance(input_char, str) and len(input_char) == 1:
+        char_code = ord(input_char.lower())
+        if ord('a') <= char_code <= ord('z'):
+            return chr(0x24B6 + (char_code - ord('a')))
+        elif ord('0') <= char_code <= ord('9'):
+            return chr(0x2460 + (char_code - ord('0')))
+        else:
+            return input_char
+    elif isinstance(input_char, int) and 0 <= input_char <= 9:
+        return chr(0x2460 + input_char)
     else:
-        return char
+        return input_char

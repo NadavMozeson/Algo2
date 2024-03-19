@@ -7,8 +7,11 @@ from Algorithms.Dijkstra import Dijkstra
 from Algorithms.BellmamFord import Bellman_Ford
 from Algorithms.Kruskal import Kruskal
 from Algorithms.Prim import Prim
+from Algorithms.DAG_Shortest_Path import DAG_Shortest_Path
+from Algorithms.Floyd_Warshall import Floyd_Warshall
 from Builder.GraphBuilder import *
 import time
+
 
 def build_graph(option, nodes_amount=5, is_directed=False, has_weights=False, node_class="Node", has_cycle=True):
     if option == 'random':
@@ -18,10 +21,11 @@ def build_graph(option, nodes_amount=5, is_directed=False, has_weights=False, no
         app.run()
         return app.graph
 
-# graph = build_graph("draw", is_directed=False, has_weights=True, node_class="Node", has_cycle=False)
-# graph.print()
-graph = Graph.load("PrimVideoExample")
+#graph = build_graph("draw", is_directed=True, has_weights=True, node_class="Node", has_cycle=True)
+#graph.print()
+graph = Graph.load("FloydWarshallVideoExample")
 graph.display()
-Prim(graph, graph.nodes[0])
+D, PIE = Floyd_Warshall(graph)
+PIE.print_matrix()
 graph.print_matrix()
 graph.display_mst_of_graph()
