@@ -22,6 +22,8 @@ class Node:
     def __init__(self, label):
         self.label: str = label
         self.adjacent_nodes: OrderedDict[Node, int] = OrderedDict()
+        self.pie: Node = None
+        self.d: int = None
 
     def __repr__(self):
         return f"{circle_value(self.label)}"
@@ -30,31 +32,19 @@ class Node:
         self.adjacent_nodes[node] = weight
         self.adjacent_nodes = OrderedDict(sorted(self.adjacent_nodes.items(), key=lambda item: item[0].label))
 
-class BFSNode(Node):
+class NodeWColor(Node):
     def __init__(self, label):
         super().__init__(label)
         self.color: str = None
-        self.pie: Node = None
-        self.d: int = None
 
-class DFSNode(Node):
+class NodeWColorFinish(NodeWColor):
     def __init__(self, label):
         super().__init__(label)
-        self.color: str = None
-        self.pie: Node = None
-        self.d: int = None
         self.f: int = None
 
 
-class DijkstraNode(Node):
-    def __init__(self, label):
-        super().__init__(label)
-        self.pie: Node = None
-        self.d: int = None
-
-
 class Graph:
-    def __init__(self, directed=False, weighted=False, NodeClass=BFSNode):
+    def __init__(self, directed=False, weighted=False, NodeClass=Node):
         self.NodeClass = NodeClass
         self.nodes: List[Node] = []
         self.directed: bool = directed
@@ -223,16 +213,24 @@ class Graph:
 
         return False
 
+    def display_mst_of_graph(self):
+        mst = Graph()
+        for v in self.nodes:
+            mst.add_node(v.label)
+        for v in self.nodes:
+            if v.pie:
+                mst.add_line(v.label, v.pie.label)
+        mst.display()
+
 
 NODE_CLASSES = {
     "Node": Node,
-    "BFS": BFSNode,
-    "DFS": DFSNode,
-    "Dijkstra": DijkstraNode
+    "WithColor": NodeWColor,
+    "ColorAndFinish": NodeWColorFinish
 }
 
 
-def generate_random_graph(num_of_nodes, is_directed=False, has_weight=False, NodeClass="BFS", min_weight=0,
+def generate_random_graph(num_of_nodes, is_directed=False, has_weight=False, NodeClass="Node", min_weight=0,
                           max_weight=10, lines_multiplier=3, has_cycle=True):
     """
     The function generate random graph from the given parameters and returns it as a Graph object
@@ -240,7 +238,7 @@ def generate_random_graph(num_of_nodes, is_directed=False, has_weight=False, Nod
     :param num_of_nodes: amount of nodes to generate
     :param is_directed: is the graph directed (Default: False)
     :param has_weight: does the graph have weight for each line (Default: False)
-    :param NodeClass: a string from the NODE_CLASSES dictionary of what node type to generate (Default: "BFS")
+    :param NodeClass: a string from the NODE_CLASSES dictionary of what node type to generate (Default: Node)
     :param min_weight: minimum weight for each line (Default: 0)
     :param max_weight: maximum weight for each line (Default: 10)
     :param lines_multiplier: a multiplier of amount of lines to generate (Default: 3)

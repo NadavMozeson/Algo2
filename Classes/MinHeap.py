@@ -67,3 +67,6 @@ class MinHeap:
 
     def __str__(self):
         return str(self.heap)
+
+    def value_exists(self, value):
+        return value in self.heap
