@@ -161,14 +161,8 @@ class GraphCreatorApp:
 
     def submit_data(self):
         algorithm = self.algorithm_var.get()
-        if algorithm == "":
-            tk.messagebox.showwarning("Warning", "Please select an algorithm.")
-            return
 
         generation_method = self.method_var.get()
-        if generation_method == "":
-            tk.messagebox.showwarning("Warning", "Please select a generation method.")
-            return
 
         save = self.save_var.get()
         filename = self.filename_entry.get() if save else ""
@@ -182,6 +176,8 @@ class GraphCreatorApp:
                                     save=save, filename=filename, loaded_filename=self.loaded_filename)
 
         self.root.quit()
+        self.root.destroy()
+
 
     def return_result(self):
         return self.result
