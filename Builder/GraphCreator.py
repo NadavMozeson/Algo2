@@ -230,7 +230,7 @@ NODE_CLASSES = {
 }
 
 
-def generate_random_graph(num_of_nodes, is_directed=False, has_weight=False, NodeClass="Node", min_weight=0,
+def generate_random_graph(num_of_nodes, is_directed=False, has_weight=False, NodeClass=Node, min_weight=0,
                           max_weight=10, lines_multiplier=3, has_cycle=True):
     """
     The function generate random graph from the given parameters and returns it as a Graph object
@@ -238,14 +238,14 @@ def generate_random_graph(num_of_nodes, is_directed=False, has_weight=False, Nod
     :param num_of_nodes: amount of nodes to generate
     :param is_directed: is the graph directed (Default: False)
     :param has_weight: does the graph have weight for each line (Default: False)
-    :param NodeClass: a string from the NODE_CLASSES dictionary of what node type to generate (Default: Node)
+    :param NodeClass: Node class to generate (Default: Node)
     :param min_weight: minimum weight for each line (Default: 0)
     :param max_weight: maximum weight for each line (Default: 10)
     :param lines_multiplier: a multiplier of amount of lines to generate (Default: 3)
     :param has_cycle: can the graph have a cycle (Default: True)
     :return: returns a random generated graph as Graph object
     """
-    graph = Graph(directed=is_directed, weighted=has_weight, NodeClass=NODE_CLASSES[NodeClass])
+    graph = Graph(directed=is_directed, weighted=has_weight, NodeClass=NodeClass)
 
     for i in range(num_of_nodes):
         graph.add_node(LETTERS[i])

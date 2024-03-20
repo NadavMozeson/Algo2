@@ -1,6 +1,21 @@
 import tkinter as tk
 from tkinter import ttk, messagebox, filedialog
 from os.path import dirname, realpath, basename
+from Builder.AlgorithmRules import *
+
+class UserInput:
+    def __init__(self, generation_method, algorithm, nodes, directed, weight, save, filename, loaded_filename):
+        self.generation_method = generation_method
+        self.algorithm = algorithm
+        self.nodes_amount = (int(nodes) if nodes != '' else 0)
+        self.is_directed = directed
+        self.has_weight = weight
+        self.save = save
+        self.filename = filename
+        self.loaded_filename = loaded_filename
+
+    def __str__(self):
+        return f"UserInput: Method={self.generation_method}, Algorithm={self.algorithm}, Nodes={self.nodes_amount}, Directed={self.is_directed}, Weights={self.has_weight}, Save={self.save}, Load={self.save}, Filename={self.filename}, Loaded Filename={self.loaded_filename}"
 
 class GraphCreatorApp:
     def __init__(self, root):
@@ -17,18 +32,11 @@ class GraphCreatorApp:
         self.filename = ""
         self.loaded_filename = ""
 
+        self.rules: AlgoRule = None
+
         self.create_section1()
 
-        self.result = {
-            'HAS_WEIGHT': False,
-            'IS_DIRECTED': False,
-            'NODE_AMOUNT': 0,
-            'OPTION': '',
-            'ALGORITHM': '',
-            'SAVE': False,
-            'FILE_NAME': '',
-            'LOAD_NAME': ''
-        }
+        self.result: UserInput = None
 
     def create_section1(self):
         self.algorithm_label = tk.Label(self.root, text="Algorithm Picker:")
@@ -54,6 +62,8 @@ class GraphCreatorApp:
             tk.messagebox.showwarning("Warning", "Please select an algorithm.")
             return
 
+        self.rules = get_rule(self.algorithm_var.get())
+
         self.algorithm_label.pack_forget()
         self.algorithm_dropdown.pack_forget()
         self.next_button.pack_forget()
@@ -71,7 +81,7 @@ class GraphCreatorApp:
         self.generation_label = tk.Label(self.root, text="Choose Generation Method:")
         self.generation_label.pack()
 
-        self.method_var = tk.StringVar(value="random")  # Set default to "random"
+        self.method_var = tk.StringVar(value="random")
 
         self.random_toggle = tk.Radiobutton(self.root, text="Random", variable=self.method_var, value="random",
                                             command=self.show_random_fields)
@@ -99,20 +109,27 @@ class GraphCreatorApp:
         self.nodes_entry = tk.Entry(self.root, textvariable=self.nodes_var)
         self.nodes_entry.pack()
 
-        self.directed_checkbox = tk.Checkbutton(self.root, text="Is the graph directed?", variable=self.directed_var)
-        self.directed_checkbox.pack()
+        if self.rules.directional is None:
+            self.directed_checkbox = tk.Checkbutton(self.root, text="Is the graph directed?", variable=self.directed_var)
+            self.directed_checkbox.pack()
+        else:
+            self.directed_var = self.rules.directional
 
-        self.weight_checkbox = tk.Checkbutton(self.root, text="Does the graph have weight?", variable=self.weight_var)
-        self.weight_checkbox.pack()
+        self.weight_var = self.rules.weights
+        # self.weight_checkbox = tk.Checkbutton(self.root, text="Does the graph have weight?", variable=self.weight_var)
+        # self.weight_checkbox.pack()
 
     def show_draw_fields(self):
         self.remove_random_fields()
+        if self.rules.directional is None:
+            self.directed_checkbox = tk.Checkbutton(self.root, text="Is the graph directed?", variable=self.directed_var)
+            self.directed_checkbox.pack()
+        else:
+            self.directed_var = self.rules.directional
 
-        self.directed_checkbox = tk.Checkbutton(self.root, text="Is the graph directed?", variable=self.directed_var)
-        self.directed_checkbox.pack()
-
-        self.weight_checkbox = tk.Checkbutton(self.root, text="Does the graph have weight?", variable=self.weight_var)
-        self.weight_checkbox.pack()
+        self.weight_var = self.rules.weights
+        # self.weight_checkbox = tk.Checkbutton(self.root, text="Does the graph have weight?", variable=self.weight_var)
+        # self.weight_checkbox.pack()
 
     def show_save_entry(self):
         if self.save_var.get():
@@ -129,14 +146,18 @@ class GraphCreatorApp:
     def remove_random_fields(self):
         if hasattr(self, 'nodes_label'):
             self.nodes_label.pack_forget()
+        if hasattr(self, 'nodes_entry'):
             self.nodes_entry.pack_forget()
+        if hasattr(self, 'directed_checkbox'):
             self.directed_checkbox.pack_forget()
-            self.weight_checkbox.pack_forget()
+        # if hasattr(self, 'weight_checkbox'):
+        #    self.weight_checkbox.pack_forget()
 
     def remove_draw_fields(self):
         if hasattr(self, 'directed_checkbox'):
             self.directed_checkbox.pack_forget()
-            self.weight_checkbox.pack_forget()
+        # if hasattr(self, 'weight_checkbox'):
+            # self.weight_checkbox.pack_forget()
 
     def submit_data(self):
         algorithm = self.algorithm_var.get()
@@ -155,15 +176,10 @@ class GraphCreatorApp:
         if self.current_section == 2:
             nodes = self.nodes_var.get()
             directed = self.directed_var.get()
-            weight = self.weight_var.get()
-            self.result['OPTION'] = generation_method
-            self.result['ALGORITHM'] = algorithm
-            self.result['NODE_AMOUNT'] = (int(nodes) if nodes != '' else 0)
-            self.result['IS_DIRECTED'] = directed
-            self.result['HAS_WEIGHT'] = weight
-            self.result['SAVE'] = save
-            self.result['FILE_NAME'] = filename
-            self.result['LOAD_NAME'] = self.loaded_filename
+            weight = self.weight_var.get() if isinstance(self.weight_var, str) else self.weight_var
+            self.result = UserInput(generation_method=generation_method, algorithm=algorithm,
+                                    nodes=(int(nodes) if nodes != '' else 0), directed=directed, weight=weight,
+                                    save=save, filename=filename, loaded_filename=self.loaded_filename)
 
         self.root.quit()
 

@@ -10,19 +10,11 @@ from Algorithms.Prim import Prim
 from Algorithms.DAG_Shortest_Path import DAG_Shortest_Path
 from Algorithms.Floyd_Warshall import Floyd_Warshall
 from Builder.GraphBuilder import *
-from Builder.GraphCreatorApp import GraphCreatorApp
+from Builder.GraphCreatorApp import GraphCreatorApp, UserInput
+from Builder.AlgorithmRules import *
 import time
 
-NODE_PER_ALGO = {"BFS": "WithColor", "DFS": "ColorAndFinish", "Topologic Sort": "WithColor",
-                 "Kosaraju-Sharir": "ColorAndFinish", "Kruskal": "Node", "Prim": "Node", "Dijkstra": "Node",
-                 "Bellman-Ford": "Node", "Floyd-Warshall": "Node", "DAG Shortest Path": "Node"}
-
-CYCLES_PER_ALGO = {"BFS": True, "DFS": True, "Topologic Sort": False,
-                   "Kosaraju-Sharir": True, "Kruskal": True, "Prim": True, "Dijkstra": True,
-                   "Bellman-Ford": True, "Floyd-Warshall": True, "DAG Shortest Path": False}
-
-
-def build_graph(option, nodes_amount=5, is_directed=False, has_weights=False, node_class="Node", has_cycle=True):
+def build_graph(option, nodes_amount=5, is_directed=False, has_weights=False, node_class=Node, has_cycle=True):
     if option == 'random':
         return generate_random_graph(num_of_nodes=nodes_amount, is_directed=is_directed, has_weight=has_weights,
                                      NodeClass=node_class, has_cycle=has_cycle)
@@ -96,19 +88,21 @@ if __name__ == "__main__":
     root = tk.Tk()
     app = GraphCreatorApp(root)
     root.mainloop()
-    user_input = app.return_result()
+    user_input: UserInput = app.return_result()
+    print(user_input)
+    algo_roles: AlgoRule = get_rule(user_input.algorithm)
 
     graph = None
 
-    if user_input['LOAD_NAME']:
-        graph = Graph.load(user_input['LOAD_NAME'])
+    if user_input.loaded_filename:
+        graph = Graph.load(user_input.loaded_filename)
     else:
-        graph = build_graph(option=user_input['OPTION'], nodes_amount=user_input['NODE_AMOUNT'],
-                            is_directed=user_input['IS_DIRECTED'], has_weights=user_input['HAS_WEIGHT'],
-                            node_class=NODE_PER_ALGO[user_input['ALGORITHM']], has_cycle=CYCLES_PER_ALGO[user_input['ALGORITHM']])
-    if user_input['SAVE']:
-        graph.save(user_input['FILE_NAME'])
+        graph = build_graph(option=user_input.generation_method, nodes_amount=user_input.nodes_amount,
+                            is_directed=user_input.is_directed, has_weights=user_input.has_weight,
+                            node_class=algo_roles.node_class, has_cycle=algo_roles.circular)
+    if user_input.save:
+        graph.save(user_input.filename)
 
     graph.print()
     graph.display()
-    algo_call(G=graph, algorithm=user_input['ALGORITHM'])
+    algo_call(G=graph, algorithm=user_input.algorithm)
