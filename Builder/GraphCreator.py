@@ -223,13 +223,6 @@ class Graph:
         mst.display()
 
 
-NODE_CLASSES = {
-    "Node": Node,
-    "WithColor": NodeWColor,
-    "ColorAndFinish": NodeWColorFinish
-}
-
-
 def generate_random_graph(num_of_nodes, is_directed=False, has_weight=False, NodeClass=Node, min_weight=0,
                           max_weight=10, lines_multiplier=3, has_cycle=True):
     """

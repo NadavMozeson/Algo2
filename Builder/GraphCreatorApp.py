@@ -175,7 +175,7 @@ class GraphCreatorApp:
 
         if self.current_section == 2:
             nodes = self.nodes_var.get()
-            directed = self.directed_var.get()
+            directed = self.directed_var if isinstance(self.directed_var, bool) else self.directed_var.get()
             weight = self.weight_var.get() if isinstance(self.weight_var, str) else self.weight_var
             self.result = UserInput(generation_method=generation_method, algorithm=algorithm,
                                     nodes=(int(nodes) if nodes != '' else 0), directed=directed, weight=weight,

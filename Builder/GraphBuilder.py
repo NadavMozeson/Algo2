@@ -1,20 +1,20 @@
 import tkinter as tk
 from tkinter import messagebox
 import tkinter.simpledialog as simpledialog
-from Builder.GraphCreator import Graph, LETTERS, NODE_CLASSES
+from Builder.GraphCreator import *
 import math
 
 class GraphBuilderApp:
     """
     An application that enables to build and create a graph using GUI
     """
-    def __init__(self, directed=True, weighted=False, node_class="BFS"):
+    def __init__(self, directed=True, weighted=False, node_class=Node):
         self.directed = directed
         self.weighted = weighted
         self.root = tk.Tk()
         self.root.title("Graph Builder")
 
-        self.graph = Graph(directed=directed, weighted=weighted, NodeClass=NODE_CLASSES[node_class])
+        self.graph = Graph(directed=directed, weighted=weighted, NodeClass=node_class)
         self.selected_node = None
 
         self.canvas = tk.Canvas(self.root, width=800, height=800, bg="white")
