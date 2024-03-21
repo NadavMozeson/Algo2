@@ -57,7 +57,10 @@ def algo_call(G: Graph, algorithm: str):
 
     def floyd_warshall_call():
         D, PIE = Floyd_Warshall(G=G)
+        print("D Matrix:")
         D.print_matrix()
+        print("PIE Matrix:")
+        PIE.print_matrix()
 
     def dag_shortest_path_call():
         DAG_Shortest_Path(G=G, s=G.nodes[0])

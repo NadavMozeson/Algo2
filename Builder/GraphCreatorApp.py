@@ -52,7 +52,7 @@ class GraphCreatorApp:
         self.next_button.pack()
 
     def load_graph(self):
-        self.loaded_filename = basename(filedialog.askopenfilename(title="Select Graph File", initialdir=dirname(dirname(realpath(__file__)))))
+        self.loaded_filename = basename(filedialog.askopenfilename(title="Select Graph File", initialdir=dirname(dirname(realpath(__file__))) + '/Graphs'))
         if self.loaded_filename:
             messagebox.showinfo("Info", f"Graph loaded from file: {self.loaded_filename}")
             self.submit_data()
@@ -177,7 +177,6 @@ class GraphCreatorApp:
 
         self.root.quit()
         self.root.destroy()
-
 
     def return_result(self):
         return self.result

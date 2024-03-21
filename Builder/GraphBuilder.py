@@ -63,8 +63,11 @@ class GraphBuilderApp:
                                 self.canvas.create_text(mid_x, mid_y, text=str(weight), fill="black", font=("Helvetica", 15, "bold"))
                         else:
                             self.graph.add_line(self.selected_node, label)
-                            self.canvas.create_line(start_x, start_y, end_x, end_y,
-                                                    fill="black", width=3, arrow=tk.LAST, arrowshape=(15, 20, 8))
+                            if self.directed:
+                                self.canvas.create_line(start_x, start_y, end_x, end_y,
+                                                        fill="black", width=3, arrow=tk.LAST, arrowshape=(15, 20, 8))
+                            else:
+                                self.canvas.create_line(start_x, start_y, end_x, end_y, fill="black", width=3)
                     else:
                         messagebox.showwarning("Line exists", "Line already exists in the graph.")
                     self.selected_node = None

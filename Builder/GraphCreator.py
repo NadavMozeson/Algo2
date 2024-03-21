@@ -28,6 +28,9 @@ class Node:
     def __repr__(self):
         return f"{circle_value(self.label)}"
 
+    def __str__(self):
+        return f"{self.label}"
+
     def add_adj(self, node, weight=None):
         self.adjacent_nodes[node] = weight
         self.adjacent_nodes = OrderedDict(sorted(self.adjacent_nodes.items(), key=lambda item: item[0].label))
@@ -60,7 +63,7 @@ class Graph:
         :param node: Node name
         """
         self.nodes.append(self.NodeClass(node))
-        self.nodes.sort(key=lambda x: x.label)
+        self.nodes.sort(key=lambda x: (x.label.lower() != 's', x.label.lower()))
 
     def add_line(self, node1: str, node2: str, weight: int = None):
         """
@@ -182,7 +185,7 @@ class Graph:
 
         :param filename: a name of the file without extension
         """
-        with open(filename, 'wb') as file:
+        with open('Graphs/' + filename, 'wb') as file:
             pickle.dump(self, file)
 
     @classmethod
@@ -192,7 +195,7 @@ class Graph:
 
         :param filename: a name of the file without extension
         """
-        with open(filename, 'rb') as file:
+        with open('Graphs/' + filename, 'rb') as file:
             return pickle.load(file)
 
     def has_cycle(self):

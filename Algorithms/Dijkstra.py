@@ -27,4 +27,4 @@ def Dijkstra(G: Graph, s: Node, w=weight_function):
         u = Q.extract_min()
         T.add(u)
         for v in u.adjacent_nodes.keys():
-            Relax(u, v, w(u, v))
+            Relax(u, v, w)

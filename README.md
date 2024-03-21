@@ -44,3 +44,12 @@ pip install tabulate
 ![image](https://github.com/NadavMozeson/Algo2/assets/117360467/4ae853d9-8bfd-443d-9134-d6392d1cc4f8)
 ### Using Debugger
 Run the code using a debugger if you wish to track the algorithms.
+### Graph Examples with Sources
+**Graphs are saved in the "Graphs" directory**
+- [BFSVideoExample](https://youtu.be/HZ5YTanv5QE?si=KrCOIhVv10YNR2Vs)
+- [DFSVideoExample](https://youtu.be/Urx87-NMm6c?si=2ZF3S2E0W3CjTdVc)
+- [FloydWarshallVideoExample](https://youtu.be/4OQeCuLYj-4?si=f3TKvK4lZuos1RdG)
+- [PrimVideoExample](https://youtu.be/cplfcGZmX7I?si=F4Ryau0ypPoQyHJ_)
+- [KruskalVideoExample](https://youtu.be/71UQH7Pr9kU?si=GLqIfo-1ASFNCEO9)
+- [DijkstraVideoExample](https://youtu.be/_lHSawdgXpI?si=Pwqd5ZNCRZC_0psj)
+- [BellmanFordVideoExample](https://youtu.be/obWXjtg0L64?si=ESwIjfO0QvV1AlHT)

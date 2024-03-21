@@ -23,7 +23,7 @@ def Bellman_Ford(G: Graph, s: Node, w=weight_function):
     Initialize_single_source(G, s)
     for i in range(len(G.nodes) - 1):
         for u, v in G.get_all_lines():
-            Relax(u, v, w(u, v))
+            Relax(u, v, w)
     for u, v in G.get_all_lines():
         if v.d > u.d + w(u, v):
             return False
