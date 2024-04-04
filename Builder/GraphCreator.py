@@ -45,7 +45,6 @@ class NodeWColorFinish(NodeWColor):
         super().__init__(label)
         self.f: int = None
 
-
 class Graph:
     def __init__(self, directed=False, weighted=False, NodeClass=Node):
         self.NodeClass = NodeClass
@@ -124,7 +123,7 @@ class Graph:
                     graph.add_edge(node.label, adj_node.label, weight=weight)
                     edge_labels[(node.label, adj_node.label)] = weight
                     if not self.directed:
-                        edge_labels[(adj_node.label, node.label)] = weight  # Add weight for reverse edge
+                        edge_labels[(adj_node.label, node.label)] = weight
                 else:
                     graph.add_edge(node.label, adj_node.label)
 
@@ -225,38 +224,53 @@ class Graph:
                 mst.add_line(v.label, v.pie.label)
         mst.display()
 
-class WeightedGraph(Graph):
-    def __init__(self, directed=False, NodeClass=Node):
-        super().__init__(directed=directed, NodeClass=NodeClass)
+class FlowGraph(Graph):
+    def __init__(self):
+        super().__init__(directed=True, weighted=True, NodeClass=Node)
+        self.flows = dict()
+
+    def get_flow(self, node1: Node, node2: Node):
+        return self.flows[(node1, node2)]
+
+    def set_flow(self, node1: Node, node2: Node, value: int):
+        if value <= node1.adjacent_nodes[node2]:
+            self.flows[(node1, node2)] = value
+            return True
+        else:
+            return False
 
     def display(self):
         """
-                Displays the graph in an image form in SciView
-                """
+        Displays the graph in an image form in SciView
+        """
         graph = nx.DiGraph() if self.directed else nx.Graph()
         edge_labels = {}
 
         for node in self.nodes:
             graph.add_node(node.label)
             for adj_node, weight in node.adjacent_nodes.items():
-                graph.add_edge(node.label, adj_node.label, weight=weight)
-                edge_labels[(node.label, adj_node.label)] = weight
-                if not self.directed:
-                    edge_labels[(adj_node.label, node.label)] = weight  # Add weight for reverse edge
+                if self.weighted:
+                    graph.add_edge(node.label, adj_node.label, weight=weight)
+                    edge_labels[(node.label, adj_node.label)] = f"{self.flows[(node, adj_node)]}/{weight}"
+                    if not self.directed:
+                        edge_labels[(adj_node.label, node.label)] = f"{self.flows[(node, adj_node)]}/{weight}"
+                else:
+                    graph.add_edge(node.label, adj_node.label)
+
         pos = nx.circular_layout(graph)
         if self.directed:
             nx.draw(graph, pos=pos, with_labels=True, node_size=1000, width=3.0, arrowsize=25, font_size=20)
         else:
             nx.draw(graph, pos=pos, with_labels=True, node_size=1000, width=3.0, font_size=20)
 
-        if self.directed:
-            nx.draw_networkx_edge_labels(graph, pos=pos, edge_labels=edge_labels, font_weight='bold', font_size=15,
-                                         label_pos=0.75)
-        else:
-            nx.draw_networkx_edge_labels(graph, pos=pos, edge_labels=edge_labels, font_weight='bold', font_size=15)
+        if self.weighted:
+            if self.directed:
+                nx.draw_networkx_edge_labels(graph, pos=pos, edge_labels=edge_labels, font_weight='bold', font_size=15,
+                                             label_pos=0.75)
+            else:
+                nx.draw_networkx_edge_labels(graph, pos=pos, edge_labels=edge_labels, font_weight='bold', font_size=15)
 
         plt.show()
-
 
 def generate_random_graph(num_of_nodes, is_directed=False, has_weight=False, NodeClass=Node, min_weight=0,
                           max_weight=10, lines_multiplier=3, has_cycle=True):
