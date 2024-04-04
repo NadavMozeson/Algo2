@@ -8,7 +8,7 @@ from Algorithms.BellmamFord import Bellman_Ford
 from Algorithms.Kruskal import Kruskal
 from Algorithms.Prim import Prim
 from Algorithms.DAG_Shortest_Path import DAG_Shortest_Path
-from Algorithms.Floyd_Warshall import Floyd_Warshall
+from Algorithms.FloydWarshall import Floyd_Warshall
 from Builder.GraphBuilder import *
 from Builder.GraphCreatorApp import GraphCreatorApp, UserInput
 from Builder.AlgorithmRules import *
@@ -93,7 +93,7 @@ if __name__ == "__main__":
     root.mainloop()
     user_input: UserInput = app.return_result()
     print(user_input)
-    algo_roles: AlgoRule = get_rule(user_input.algorithm)
+    algo_roles: AlgoRule = get_rule(user_369input.algorithm)
 
     graph = None
 
