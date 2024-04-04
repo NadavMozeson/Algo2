@@ -93,7 +93,7 @@ if __name__ == "__main__":
     root.mainloop()
     user_input: UserInput = app.return_result()
     print(user_input)
-    algo_roles: AlgoRule = get_rule(user_369input.algorithm)
+    algo_roles: AlgoRule = get_rule(user_input.algorithm)
 
     graph = None
 
