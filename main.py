@@ -9,6 +9,7 @@ from Algorithms.Kruskal import Kruskal
 from Algorithms.Prim import Prim
 from Algorithms.DAG_Shortest_Path import DAG_Shortest_Path
 from Algorithms.FloydWarshall import Floyd_Warshall
+from Algorithms.FordFulkerson import Ford_Flukerson
 from Builder.GraphBuilder import *
 from Builder.GraphCreatorApp import GraphCreatorApp, UserInput
 from Builder.AlgorithmRules import *
@@ -86,7 +87,7 @@ D, PIE = Floyd_Warshall(graph)
 PIE.print_matrix()
 graph.print_matrix()
 graph.display_mst_of_graph()"""
-
+"""
 if __name__ == "__main__":
     root = tk.Tk()
     app = GraphCreatorApp(root)
@@ -109,3 +110,10 @@ if __name__ == "__main__":
     graph.print()
     graph.display()
     algo_call(G=graph, algorithm=user_input.algorithm)
+"""
+# drawApp = GraphBuilderApp(directed=True, weighted=True, node_class=NodeWColorFinish)
+# drawApp.run()
+graph = Graph.load("temp")
+graph.print()
+graph.display()
+print(Ford_Flukerson(G=graph, s=graph.nodes[0], t=graph.nodes[-1]))

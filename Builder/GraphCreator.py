@@ -4,6 +4,7 @@ import random
 import pickle
 from tabulate import tabulate
 from collections import OrderedDict
+from copy import deepcopy
 
 LETTERS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V',
            'W', 'X', 'Y', 'Z']
@@ -33,6 +34,10 @@ class Node:
 
     def add_adj(self, node, weight=None):
         self.adjacent_nodes[node] = weight
+        self.adjacent_nodes = OrderedDict(sorted(self.adjacent_nodes.items(), key=lambda item: item[0].label))
+
+    def remove_adj(self, node):
+        self.adjacent_nodes.pop(node)
         self.adjacent_nodes = OrderedDict(sorted(self.adjacent_nodes.items(), key=lambda item: item[0].label))
 
 class NodeWColor(Node):
@@ -77,6 +82,11 @@ class Graph:
         node1.add_adj(node2, weight)
         if not self.directed:
             node2.add_adj(node1, weight)
+
+    def remove_line(self, node1: str, node2: str):
+        node1.remove_adj(node2)
+        if not self.directed:
+            node2.remove_adj(node1)
 
     def get_node(self, label: str):
         """
@@ -224,53 +234,32 @@ class Graph:
                 mst.add_line(v.label, v.pie.label)
         mst.display()
 
-class FlowGraph(Graph):
+class FlowGraph:
     def __init__(self):
-        super().__init__(directed=True, weighted=True, NodeClass=Node)
-        self.flows = dict()
+        self.N: Graph = None
+        self.f = {}
+        self.c = {}
+        self.s: Node = None
+        self.t: Node = None
 
-    def get_flow(self, node1: Node, node2: Node):
-        return self.flows[(node1, node2)]
+    def copy(self, N, s, t):
+        self.N = N
+        self.s = s
+        self.t = t
+        self.set_c()
 
-    def set_flow(self, node1: Node, node2: Node, value: int):
-        if value <= node1.adjacent_nodes[node2]:
-            self.flows[(node1, node2)] = value
-            return True
-        else:
-            return False
-
-    def display(self):
-        """
-        Displays the graph in an image form in SciView
-        """
-        graph = nx.DiGraph() if self.directed else nx.Graph()
-        edge_labels = {}
-
-        for node in self.nodes:
-            graph.add_node(node.label)
-            for adj_node, weight in node.adjacent_nodes.items():
-                if self.weighted:
-                    graph.add_edge(node.label, adj_node.label, weight=weight)
-                    edge_labels[(node.label, adj_node.label)] = f"{self.flows[(node, adj_node)]}/{weight}"
-                    if not self.directed:
-                        edge_labels[(adj_node.label, node.label)] = f"{self.flows[(node, adj_node)]}/{weight}"
+    def set_c(self):
+        for u in self.N.nodes:
+            for v in self.N.nodes:
+                if v in u.adjacent_nodes.keys():
+                    self.c[(u, v)] = u.adjacent_nodes[v]
                 else:
-                    graph.add_edge(node.label, adj_node.label)
+                    self.c[(u, v)] = 0
 
-        pos = nx.circular_layout(graph)
-        if self.directed:
-            nx.draw(graph, pos=pos, with_labels=True, node_size=1000, width=3.0, arrowsize=25, font_size=20)
-        else:
-            nx.draw(graph, pos=pos, with_labels=True, node_size=1000, width=3.0, font_size=20)
-
-        if self.weighted:
-            if self.directed:
-                nx.draw_networkx_edge_labels(graph, pos=pos, edge_labels=edge_labels, font_weight='bold', font_size=15,
-                                             label_pos=0.75)
-            else:
-                nx.draw_networkx_edge_labels(graph, pos=pos, edge_labels=edge_labels, font_weight='bold', font_size=15)
-
-        plt.show()
+    def update_removed_edges(self):
+        for u, v in self.N.get_all_lines():
+            if self.c[(u, v)] <= 0:
+                self.N.remove_line(u, v)
 
 def generate_random_graph(num_of_nodes, is_directed=False, has_weight=False, NodeClass=Node, min_weight=0,
                           max_weight=10, lines_multiplier=3, has_cycle=True):
