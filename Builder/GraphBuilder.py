@@ -4,17 +4,20 @@ import tkinter.simpledialog as simpledialog
 from Builder.GraphCreator import *
 import math
 
+
 class GraphBuilderApp:
     """
     An application that enables to build and create a graph using GUI
     """
-    def __init__(self, directed=True, weighted=False, node_class=Node):
+
+    def __init__(self, directed=True, weighted=False, flow=False, node_class=Node):
         self.directed = directed
         self.weighted = weighted
+        self.flow = flow
         self.root = tk.Tk()
         self.root.title("Graph Builder")
 
-        self.graph = Graph(directed=directed, weighted=weighted, NodeClass=node_class)
+        self.graph = Graph(directed=directed, weighted=weighted, flow=flow, NodeClass=node_class)
         self.selected_node = None
 
         self.canvas = tk.Canvas(self.root, width=800, height=800, bg="white")
@@ -49,18 +52,21 @@ class GraphBuilderApp:
 
                     if not self.graph.has_line(self.selected_node, label):
                         if self.weighted:
-                            weight = simpledialog.askinteger("Enter weight", "Enter the weight for the line:")
+                            weight = simpledialog.askinteger(f"Enter {'capacity' if self.flow else 'weight'}",
+                                                             f"Enter the {'capacity' if self.flow else 'weight'} for the line:")
                             if weight is not None:
                                 self.graph.add_line(self.selected_node, label, weight)
                                 if self.directed:
                                     self.canvas.create_line(start_x, start_y, end_x, end_y,
-                                                            fill="black", width=3, arrow=tk.LAST, arrowshape=(15, 20, 8))
+                                                            fill="black", width=3, arrow=tk.LAST,
+                                                            arrowshape=(15, 20, 8))
                                 else:
                                     self.canvas.create_line(start_x, start_y, end_x, end_y,
                                                             fill="black", width=3)
                                 mid_x = (start_x + end_x) / 2 - 10
                                 mid_y = (start_y + end_y) / 2 - 10
-                                self.canvas.create_text(mid_x, mid_y, text=str(weight), fill="black", font=("Helvetica", 15, "bold"))
+                                self.canvas.create_text(mid_x, mid_y, text=str(weight), fill="black",
+                                                        font=("Helvetica", 15, "bold"))
                         else:
                             self.graph.add_line(self.selected_node, label)
                             if self.directed:

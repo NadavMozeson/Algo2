@@ -40,22 +40,26 @@ class Node:
         self.adjacent_nodes.pop(node)
         self.adjacent_nodes = OrderedDict(sorted(self.adjacent_nodes.items(), key=lambda item: item[0].label))
 
+
 class NodeWColor(Node):
     def __init__(self, label):
         super().__init__(label)
         self.color: str = None
+
 
 class NodeWColorFinish(NodeWColor):
     def __init__(self, label):
         super().__init__(label)
         self.f: int = None
 
+
 class Graph:
-    def __init__(self, directed=False, weighted=False, NodeClass=Node):
+    def __init__(self, directed=False, weighted=False, flow=False, NodeClass=Node):
         self.NodeClass = NodeClass
         self.nodes: List[Node] = []
         self.directed: bool = directed
         self.weighted: bool = weighted
+        self.flow: bool = flow
 
     def __repr__(self):
         return f"Graph with Nodes:{self.nodes}"
@@ -131,7 +135,7 @@ class Graph:
             for adj_node, weight in node.adjacent_nodes.items():
                 if self.weighted:
                     graph.add_edge(node.label, adj_node.label, weight=weight)
-                    edge_labels[(node.label, adj_node.label)] = weight
+                    edge_labels[(node.label, adj_node.label)] = f'{"0/" if self.flow else ""}{weight}'
                     if not self.directed:
                         edge_labels[(adj_node.label, node.label)] = weight
                 else:
@@ -234,6 +238,7 @@ class Graph:
                 mst.add_line(v.label, v.pie.label)
         mst.display()
 
+
 class FlowGraph:
     def __init__(self):
         self.N: Graph = None
@@ -261,7 +266,41 @@ class FlowGraph:
             if self.c[(u, v)] <= 0:
                 self.N.remove_line(u, v)
 
-def generate_random_graph(num_of_nodes, is_directed=False, has_weight=False, NodeClass=Node, min_weight=0,
+    def display(self):
+        """
+        Displays the graph in an image form in SciView
+        """
+        graph = nx.DiGraph() if self.directed else nx.Graph()
+        edge_labels = {}
+
+        for node in self.nodes:
+            graph.add_node(node.label)
+            for adj_node, weight in node.adjacent_nodes.items():
+                if self.weighted:
+                    graph.add_edge(node.label, adj_node.label, weight=weight)
+                    edge_labels[(node.label, adj_node.label)] = f'{self.c[(node, adj_node)]}/{weight}'
+                    if not self.directed:
+                        edge_labels[(adj_node.label, node.label)] = weight
+                else:
+                    graph.add_edge(node.label, adj_node.label)
+
+        pos = nx.circular_layout(graph)
+        if self.directed:
+            nx.draw(graph, pos=pos, with_labels=True, node_size=1000, width=3.0, arrowsize=25, font_size=20)
+        else:
+            nx.draw(graph, pos=pos, with_labels=True, node_size=1000, width=3.0, font_size=20)
+
+        if self.weighted:
+            if self.directed:
+                nx.draw_networkx_edge_labels(graph, pos=pos, edge_labels=edge_labels, font_weight='bold', font_size=15,
+                                             label_pos=0.75)
+            else:
+                nx.draw_networkx_edge_labels(graph, pos=pos, edge_labels=edge_labels, font_weight='bold', font_size=15)
+
+        plt.show()
+
+
+def generate_random_graph(num_of_nodes, is_directed=False, has_weight=False, flow=False, NodeClass=Node, min_weight=0,
                           max_weight=10, lines_multiplier=3, has_cycle=True):
     """
     The function generate random graph from the given parameters and returns it as a Graph object
@@ -269,6 +308,7 @@ def generate_random_graph(num_of_nodes, is_directed=False, has_weight=False, Nod
     :param num_of_nodes: amount of nodes to generate
     :param is_directed: is the graph directed (Default: False)
     :param has_weight: does the graph have weight for each line (Default: False)
+    :param flow: does the graph represent a flow graph (Default: False)
     :param NodeClass: Node class to generate (Default: Node)
     :param min_weight: minimum weight for each line (Default: 0)
     :param max_weight: maximum weight for each line (Default: 10)
@@ -276,7 +316,7 @@ def generate_random_graph(num_of_nodes, is_directed=False, has_weight=False, Nod
     :param has_cycle: can the graph have a cycle (Default: True)
     :return: returns a random generated graph as Graph object
     """
-    graph = Graph(directed=is_directed, weighted=has_weight, NodeClass=NodeClass)
+    graph = Graph(directed=is_directed, weighted=has_weight, NodeClass=NodeClass, flow=flow)
 
     for i in range(num_of_nodes):
         graph.add_node(LETTERS[i])
@@ -295,10 +335,13 @@ def generate_random_graph(num_of_nodes, is_directed=False, has_weight=False, Nod
         if not graph.has_cycle():
             return graph
         else:
-            return generate_random_graph(num_of_nodes, is_directed, has_weight, NodeClass, min_weight, max_weight,
-                                         lines_multiplier, has_cycle)
+            return generate_random_graph(num_of_nodes=num_of_nodes, is_directed=is_directed, has_weight=has_weight,
+                                         flow=flow, NodeClass=NodeClass,
+                                         min_weight=min_weight, max_weight=max_weight,
+                                         lines_multiplier=lines_multiplier, has_cycle=has_cycle)
     else:
         return graph
+
 
 def circle_value(input_char):
     if isinstance(input_char, str) and len(input_char) == 1:
