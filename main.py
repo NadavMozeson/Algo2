@@ -67,6 +67,9 @@ def algo_call(G: Graph, algorithm: str):
         DAG_Shortest_Path(G=G, s=G.nodes[0])
         G.print_matrix()
 
+    def ford_fulkerson_call():
+        print(Ford_Flukerson(G=graph, s=graph.nodes[0], t=graph.nodes[-1]))
+
     functions_dict = {
         "BFS": bfs_call,
         "DFS": dfs_call,
@@ -77,17 +80,12 @@ def algo_call(G: Graph, algorithm: str):
         "Dijkstra": dijkstra_call,
         "Bellman-Ford": bellman_ford_call,
         "Floyd-Warshall": floyd_warshall_call,
-        "DAG Shortest Path": dag_shortest_path_call
+        "DAG Shortest Path": dag_shortest_path_call,
+        "Ford-Fulkerson": ford_fulkerson_call
     }
 
     functions_dict[algorithm]()
 
-"""
-D, PIE = Floyd_Warshall(graph)
-PIE.print_matrix()
-graph.print_matrix()
-graph.display_mst_of_graph()"""
-"""
 if __name__ == "__main__":
     root = tk.Tk()
     app = GraphCreatorApp(root)
@@ -110,10 +108,3 @@ if __name__ == "__main__":
     graph.print()
     graph.display()
     algo_call(G=graph, algorithm=user_input.algorithm)
-"""
-# drawApp = GraphBuilderApp(directed=True, weighted=True, node_class=NodeWColorFinish)
-# drawApp.run()
-graph = Graph.load("temp")
-graph.print()
-graph.display()
-print(Ford_Flukerson(G=graph, s=graph.nodes[0], t=graph.nodes[-1]))

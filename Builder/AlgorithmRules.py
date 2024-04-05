@@ -27,6 +27,8 @@ class AlgoRulesList:
         self.BellmanFord: AlgoRule = AlgoRule(name='Bellman-Ford', node_class=Node, directional=True, circular=True, weights=True)
         self.FloydWarshall: AlgoRule = AlgoRule(name='Floyd-Warshall', node_class=Node, directional=True, circular=True, weights=True)
         self.DAGShortestPath: AlgoRule = AlgoRule(name='DAG Shortest Path', node_class=Node, directional=True, circular=False, weights=True)
+        self.FordFulkerson: AlgoRule = AlgoRule(name='Ford-Fulkerson', node_class=NodeWColorFinish, directional=True, circular=True, weights=True)
+
 
 def get_rule(algo_name):
     rules_list = AlgoRulesList()
@@ -40,8 +42,8 @@ def get_rule(algo_name):
         "Dijkstra": rules_list.Dijkstra,
         "Bellman-Ford": rules_list.BellmanFord,
         "Floyd-Warshall": rules_list.FloydWarshall,
-        "DAG Shortest Path": rules_list.DAGShortestPath
+        "DAG Shortest Path": rules_list.DAGShortestPath,
+        "Ford-Fulkerson": rules_list.FordFulkerson,
     }
 
     return algo_dict[algo_name]
-

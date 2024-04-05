@@ -44,7 +44,7 @@ class GraphCreatorApp:
 
         self.algorithm_dropdown = ttk.Combobox(self.root, textvariable=self.algorithm_var, values=[
             "BFS", "DFS", "Topologic Sort", "Kosaraju-Sharir", "Kruskal", "Prim", "Dijkstra",
-            "Bellman-Ford", "Floyd-Warshall", "DAG Shortest Path"
+            "Bellman-Ford", "Floyd-Warshall", "DAG Shortest Path", "Ford-Fulkerson"
         ])
         self.algorithm_dropdown.pack()
 
