@@ -53,3 +53,5 @@ Run the code using a debugger if you wish to track the algorithms.
 - [KruskalVideoExample](https://youtu.be/71UQH7Pr9kU?si=GLqIfo-1ASFNCEO9)
 - [DijkstraVideoExample](https://youtu.be/_lHSawdgXpI?si=Pwqd5ZNCRZC_0psj)
 - [BellmanFordVideoExample](https://youtu.be/obWXjtg0L64?si=ESwIjfO0QvV1AlHT)
+- [FordFulkersonVideoExample](https://youtu.be/Tl90tNtKvxs?si=vAWbTNShxlnO4xXZ) (Can also be run by Edmonds-Karp)
+
