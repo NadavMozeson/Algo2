@@ -11,6 +11,7 @@ from Algorithms.FloydWarshall import Floyd_Warshall
 from Algorithms.FordFulkerson import Ford_Flukerson
 from Algorithms.EdmondsKarp import Edmonds_Karp
 from Builder.GraphCreator import Node, NodeWColor, NodeWColorFinish, Graph
+from typing import Dict, Tuple, Set
 
 class AlgoRule:
     def __init__(self, name, node_class, directional, circular, weights, flow):
@@ -97,6 +98,8 @@ class AlgoScripts:
             if v == self.G.nodes[-1]:
                 flow_sum += flow_function[(u, v)]
         print(f"Flow = {flow_sum}")
+        result_graph = convert_flow_function_to_graph(flow_function)
+        result_graph.display()
 
     def edmonds_karp_call(self):
         flow_function = Edmonds_Karp(G=self.G, s=self.G.nodes[0], t=self.G.nodes[-1])
@@ -106,6 +109,21 @@ class AlgoScripts:
             if v == self.G.nodes[-1]:
                 flow_sum += flow_function[(u, v)]
         print(f"Flow = {flow_sum}")
+        result_graph = convert_flow_function_to_graph(flow_function)
+        result_graph.display()
+
+def convert_flow_function_to_graph(func: Dict[Tuple[Node, Node], int]):
+    result_graph = Graph(directed=True, weighted=True, flow=False, NodeClass=Node)
+    nodes: Set[Node] = set()
+    for u, v in func.keys():
+        nodes.add(u)
+    for node in nodes:
+        result_graph.add_node(node.label)
+    for u, v in func.keys():
+        if func[(u, v)] > 0:
+            result_graph.add_line(u.label, v.label, func[(u, v)])
+    return result_graph
+
 
 SCRIPTS = AlgoScripts()
 RULES = AlgoRulesList()

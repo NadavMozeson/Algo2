@@ -270,28 +270,28 @@ class FlowGraph:
         """
         Displays the graph in an image form in SciView
         """
-        graph = nx.DiGraph() if self.directed else nx.Graph()
+        graph = nx.DiGraph() if self.N.directed else nx.Graph()
         edge_labels = {}
 
-        for node in self.nodes:
+        for node in self.N.nodes:
             graph.add_node(node.label)
             for adj_node, weight in node.adjacent_nodes.items():
-                if self.weighted:
+                if self.N.weighted:
                     graph.add_edge(node.label, adj_node.label, weight=weight)
-                    edge_labels[(node.label, adj_node.label)] = f'{self.c[(node, adj_node)]}/{weight}'
-                    if not self.directed:
+                    edge_labels[(node.label, adj_node.label)] = f'{self.f[(node, adj_node)]}/{weight}'
+                    if not self.N.directed:
                         edge_labels[(adj_node.label, node.label)] = weight
                 else:
                     graph.add_edge(node.label, adj_node.label)
 
         pos = nx.circular_layout(graph)
-        if self.directed:
+        if self.N.directed:
             nx.draw(graph, pos=pos, with_labels=True, node_size=1000, width=3.0, arrowsize=25, font_size=20)
         else:
             nx.draw(graph, pos=pos, with_labels=True, node_size=1000, width=3.0, font_size=20)
 
-        if self.weighted:
-            if self.directed:
+        if self.N.weighted:
+            if self.N.directed:
                 nx.draw_networkx_edge_labels(graph, pos=pos, edge_labels=edge_labels, font_weight='bold', font_size=15,
                                              label_pos=0.75)
             else:

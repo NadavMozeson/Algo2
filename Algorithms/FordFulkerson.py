@@ -45,5 +45,5 @@ def Ford_Flukerson(G: Graph, s: Node, t: Node, c=capacity):
             Nf.c[(v, u)] = Nf.c[(v, u)] + CfP
         Nf.update_removed_edges()
         if gettrace() is not None:
-            Nf.N.display()
+            Nf.display()
     return Nf.f

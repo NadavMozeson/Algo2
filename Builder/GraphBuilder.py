@@ -65,7 +65,7 @@ class GraphBuilderApp:
                                                             fill="black", width=3)
                                 mid_x = (start_x + end_x) / 2 - 10
                                 mid_y = (start_y + end_y) / 2 - 10
-                                self.canvas.create_text(mid_x, mid_y, text=str(weight), fill="black",
+                                self.canvas.create_text(mid_x, mid_y, text=f"{'0/' if self.flow else ''}{weight}", fill="black",
                                                         font=("Helvetica", 15, "bold"))
                         else:
                             self.graph.add_line(self.selected_node, label)
