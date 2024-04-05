@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk, messagebox, filedialog
 from os.path import dirname, realpath, basename
 from Builder.AlgorithmRules import *
+from Builder.Algorithms import *
 
 class UserInput:
     def __init__(self, generation_method, algorithm, nodes, directed, weight, save, filename, loaded_filename):
@@ -42,10 +43,7 @@ class GraphCreatorApp:
         self.algorithm_label = tk.Label(self.root, text="Algorithm Picker:")
         self.algorithm_label.pack()
 
-        self.algorithm_dropdown = ttk.Combobox(self.root, textvariable=self.algorithm_var, values=[
-            "BFS", "DFS", "Topologic Sort", "Kosaraju-Sharir", "Kruskal", "Prim", "Dijkstra",
-            "Bellman-Ford", "Floyd-Warshall", "DAG Shortest Path", "Ford-Fulkerson", "Edmonds-Karp"
-        ])
+        self.algorithm_dropdown = ttk.Combobox(self.root, textvariable=self.algorithm_var, values=ALGORITHMS.get_algorithms_names())
         self.algorithm_dropdown.pack()
 
         self.next_button = tk.Button(self.root, text="Next", command=self.move_to_section2)
@@ -62,7 +60,7 @@ class GraphCreatorApp:
             tk.messagebox.showwarning("Warning", "Please select an algorithm.")
             return
 
-        self.rules = get_rule(self.algorithm_var.get())
+        self.rules = ALGORITHMS.get_algo_rule(algorithm=self.algorithm_var.get())
 
         self.algorithm_label.pack_forget()
         self.algorithm_dropdown.pack_forget()

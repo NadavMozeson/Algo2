@@ -1,19 +1,8 @@
 from Builder.GraphCreator import *
-from Algorithms.DFS import DFS
-from Algorithms.BFS import BFS
-from Algorithms.TopologicSort import topologic_sort
-from Algorithms.KosarajuSharir import KosarajuSharir
-from Algorithms.Dijkstra import Dijkstra
-from Algorithms.BellmamFord import Bellman_Ford
-from Algorithms.Kruskal import Kruskal
-from Algorithms.Prim import Prim
-from Algorithms.DAG_Shortest_Path import DAG_Shortest_Path
-from Algorithms.FloydWarshall import Floyd_Warshall
-from Algorithms.FordFulkerson import Ford_Flukerson
-from Algorithms.EdmondsKarp import Edmonds_Karp
 from Builder.GraphBuilder import *
 from Builder.GraphCreatorApp import GraphCreatorApp, UserInput
 from Builder.AlgorithmRules import *
+from Builder.Algorithms import *
 import time
 
 def build_graph(option, nodes_amount=5, is_directed=False, has_weights=False, node_class=Node, has_cycle=True):
@@ -25,91 +14,13 @@ def build_graph(option, nodes_amount=5, is_directed=False, has_weights=False, no
         drawApp.run()
         return drawApp.graph
 
-def algo_call(G: Graph, algorithm: str):
-    def bfs_call():
-        BFS(g=G, s=G.nodes[0])
-        G.print_matrix()
-
-    def dfs_call():
-        DFS(g=G)
-        G.print_matrix()
-
-    def topologic_call():
-        print(topologic_sort(G=G))
-
-    def kosaraju_sharir_call():
-        result = KosarajuSharir(G=G)
-        result.print_dds_tree()
-
-    def kruskal_call():
-        result = Kruskal(G=G)
-        result.display()
-
-    def prim_call():
-        Prim(G=G, r=G.nodes[0])
-        G.print_matrix()
-
-    def dijkstra_call():
-        Dijkstra(G=G, s=G.nodes[0])
-        G.print_matrix()
-
-    def bellman_ford_call():
-        print(Bellman_Ford(G=G, s=G.nodes[0]))
-        G.print_matrix()
-
-    def floyd_warshall_call():
-        D, PIE = Floyd_Warshall(G=G)
-        print("D Matrix:")
-        D.print_matrix()
-        print("PIE Matrix:")
-        PIE.print_matrix()
-
-    def dag_shortest_path_call():
-        DAG_Shortest_Path(G=G, s=G.nodes[0])
-        G.print_matrix()
-
-    def ford_fulkerson_call():
-        flow_function = Ford_Flukerson(G=graph, s=graph.nodes[0], t=graph.nodes[-1])
-        print(flow_function)
-        flow_sum = 0
-        for u, v in flow_function.keys():
-            if v == graph.nodes[-1]:
-                flow_sum += flow_function[(u, v)]
-        print(f"Flow = {flow_sum}")
-
-    def edmonds_karp_call():
-        flow_function = Edmonds_Karp(G=graph, s=graph.nodes[0], t=graph.nodes[-1])
-        print(flow_function)
-        flow_sum = 0
-        for u, v in flow_function.keys():
-            if v == graph.nodes[-1]:
-                flow_sum += flow_function[(u, v)]
-        print(f"Flow = {flow_sum}")
-
-    functions_dict = {
-        "BFS": bfs_call,
-        "DFS": dfs_call,
-        "Topologic Sort": topologic_call,
-        "Kosaraju-Sharir": kosaraju_sharir_call,
-        "Kruskal": kruskal_call,
-        "Prim": prim_call,
-        "Dijkstra": dijkstra_call,
-        "Bellman-Ford": bellman_ford_call,
-        "Floyd-Warshall": floyd_warshall_call,
-        "DAG Shortest Path": dag_shortest_path_call,
-        "Ford-Fulkerson": ford_fulkerson_call,
-        "Edmonds-Karp": edmonds_karp_call
-    }
-
-    functions_dict[algorithm]()
-
 if __name__ == "__main__":
     root = tk.Tk()
     app = GraphCreatorApp(root)
     root.mainloop()
     user_input: UserInput = app.return_result()
     print(user_input)
-    algo_roles: AlgoRule = get_rule(user_input.algorithm)
+    algo_roles: AlgoRule = ALGORITHMS.get_algo_rule(algorithm=user_input.algorithm)
 
     graph = None
 
@@ -124,4 +35,5 @@ if __name__ == "__main__":
 
     graph.print()
     graph.display()
-    algo_call(G=graph, algorithm=user_input.algorithm)
+
+    ALGORITHMS.run_algorithm(graph=graph, algorithm=user_input.algorithm)
