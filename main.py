@@ -10,6 +10,7 @@ from Algorithms.Prim import Prim
 from Algorithms.DAG_Shortest_Path import DAG_Shortest_Path
 from Algorithms.FloydWarshall import Floyd_Warshall
 from Algorithms.FordFulkerson import Ford_Flukerson
+from Algorithms.EdmondsKarp import Edmonds_Karp
 from Builder.GraphBuilder import *
 from Builder.GraphCreatorApp import GraphCreatorApp, UserInput
 from Builder.AlgorithmRules import *
@@ -70,6 +71,9 @@ def algo_call(G: Graph, algorithm: str):
     def ford_fulkerson_call():
         print(Ford_Flukerson(G=graph, s=graph.nodes[0], t=graph.nodes[-1]))
 
+    def edmonds_karp_call():
+        print(Edmonds_Karp(G=graph, s=graph.nodes[0], t=graph.nodes[-1]))
+
     functions_dict = {
         "BFS": bfs_call,
         "DFS": dfs_call,
@@ -81,7 +85,8 @@ def algo_call(G: Graph, algorithm: str):
         "Bellman-Ford": bellman_ford_call,
         "Floyd-Warshall": floyd_warshall_call,
         "DAG Shortest Path": dag_shortest_path_call,
-        "Ford-Fulkerson": ford_fulkerson_call
+        "Ford-Fulkerson": ford_fulkerson_call,
+        "Edmonds-Karp": edmonds_karp_call
     }
 
     functions_dict[algorithm]()
