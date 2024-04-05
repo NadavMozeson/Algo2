@@ -69,10 +69,22 @@ def algo_call(G: Graph, algorithm: str):
         G.print_matrix()
 
     def ford_fulkerson_call():
-        print(Ford_Flukerson(G=graph, s=graph.nodes[0], t=graph.nodes[-1]))
+        flow_function = Ford_Flukerson(G=graph, s=graph.nodes[0], t=graph.nodes[-1])
+        print(flow_function)
+        flow_sum = 0
+        for u, v in flow_function.keys():
+            if v == graph.nodes[-1]:
+                flow_sum += flow_function[(u, v)]
+        print(f"Flow = {flow_sum}")
 
     def edmonds_karp_call():
-        print(Edmonds_Karp(G=graph, s=graph.nodes[0], t=graph.nodes[-1]))
+        flow_function = Edmonds_Karp(G=graph, s=graph.nodes[0], t=graph.nodes[-1])
+        print(flow_function)
+        flow_sum = 0
+        for u, v in flow_function.keys():
+            if v == graph.nodes[-1]:
+                flow_sum += flow_function[(u, v)]
+        print(f"Flow = {flow_sum}")
 
     functions_dict = {
         "BFS": bfs_call,
