@@ -20,8 +20,12 @@ class GraphBuilderApp:
         self.graph = Graph(directed=directed, weighted=weighted, flow=flow, NodeClass=node_class)
         self.selected_node = None
 
-        self.canvas = tk.Canvas(self.root, width=800, height=800, bg="white")
+        self.canvas = tk.Canvas(self.root, width=1200, height=800, bg="white")
         self.canvas.pack()
+        for i in range(0, 1200, 50):
+            self.canvas.create_line(i, 0, i, 800, fill="#DADADA")
+        for i in range(0, 800, 50):
+            self.canvas.create_line(0, i, 1200, i, fill="#DADADA")
 
         self.canvas.bind("<Button-1>", self.add_node)
         self.canvas.bind("<Button-3>", self.add_line)
@@ -49,7 +53,6 @@ class GraphBuilderApp:
                     angle = math.atan2(end_y - start_y, end_x - start_x)
                     start_x = start_x + node_radius * math.cos(angle)
                     start_y = start_y + node_radius * math.sin(angle)
-
                     if not self.graph.has_line(self.selected_node, label):
                         if self.weighted:
                             weight = simpledialog.askinteger(f"Enter {'capacity' if self.flow else 'weight'}",
@@ -58,14 +61,15 @@ class GraphBuilderApp:
                                 self.graph.add_line(self.selected_node, label, weight)
                                 if self.directed:
                                     self.canvas.create_line(start_x, start_y, end_x, end_y,
-                                                            fill="black", width=3, arrow=tk.LAST,
-                                                            arrowshape=(15, 20, 8))
+                                                                   fill="black", width=3, arrow=tk.LAST,
+                                                                   arrowshape=(15, 20, 8))
                                 else:
                                     self.canvas.create_line(start_x, start_y, end_x, end_y,
-                                                            fill="black", width=3)
+                                                                   fill="black", width=3)
                                 mid_x = (start_x + end_x) / 2 - 10
                                 mid_y = (start_y + end_y) / 2 - 10
-                                self.canvas.create_text(mid_x, mid_y, text=f"{'0/' if self.flow else ''}{weight}", fill="black",
+                                self.canvas.create_text(mid_x, mid_y, text=f"{'0/' if self.flow else ''}{weight}",
+                                                        fill="black",
                                                         font=("Helvetica", 15, "bold"))
                         else:
                             self.graph.add_line(self.selected_node, label)
