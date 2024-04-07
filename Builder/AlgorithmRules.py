@@ -55,12 +55,12 @@ class AlgoScripts:
 
     def dfs_call(self):
         DFS(g=self.G)
-        print_tree_from_result(self.G)
+        self.G.display_tree_of_graph()
         self.G.print_matrix()
 
     def topologic_call(self):
         result_sort = topologic_sort(G=self.G)
-        print_tree_from_result(self.G)
+        self.G.display_tree_of_graph()
         self.G.print_matrix()
         print(result_sort)
 
@@ -128,15 +128,6 @@ def convert_flow_function_to_graph(func: Dict[Tuple[Node, Node], int]):
         if func[(u, v)] > 0:
             result_graph.add_line(u.label, v.label, func[(u, v)])
     return result_graph
-
-def print_tree_from_result(G: Graph):
-    forest = DDS()
-    for node in G.nodes:
-        forest.make_set(node)
-    for node in G.nodes:
-        if node.pie is not None:
-            forest.merge(node, node.pie)
-    forest.print_dds_tree()
 
 SCRIPTS = AlgoScripts()
 RULES = AlgoRulesList()

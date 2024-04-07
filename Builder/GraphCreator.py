@@ -229,14 +229,23 @@ class Graph:
 
         return False
 
-    def display_mst_of_graph(self):
-        mst = Graph()
-        for v in self.nodes:
-            mst.add_node(v.label)
-        for v in self.nodes:
-            if v.pie:
-                mst.add_line(v.label, v.pie.label)
-        mst.display()
+    def display_tree_of_graph(self):
+        tree = Graph()
+        for node in self.nodes:
+            tree.add_node(node.label)
+        for node in self.nodes:
+            if node.pie is not None:
+                tree.add_line(node.label, node.pie.label)
+
+        graph = nx.DiGraph() if tree.directed else nx.Graph()
+        for node in tree.nodes:
+            graph.add_node(node.label)
+            for adj_node, weight in node.adjacent_nodes.items():
+                graph.add_edge(node.label, adj_node.label)
+        pos = nx.circular_layout(graph)
+        nx.draw(graph, pos=pos, node_color='lightgreen', with_labels=True, node_size=1000, width=3.0, font_size=20)
+
+        plt.show()
 
 
 class FlowGraph:
