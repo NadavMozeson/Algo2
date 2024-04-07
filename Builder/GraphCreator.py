@@ -235,7 +235,7 @@ class Graph:
             tree.add_node(node.label)
         for node in self.nodes:
             if node.pie is not None:
-                tree.add_line(node.label, node.pie.label)
+                tree.add_line(node.pie.label, node.label)
 
         graph = nx.DiGraph() if tree.directed else nx.Graph()
         for node in tree.nodes:
