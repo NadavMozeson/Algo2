@@ -18,6 +18,10 @@ Use pip to install the required libraries used to run the code.
 ### Install commands for libraries:
 
 ```bash
+pip install -r requirements.txt
+```
+OR
+```bash
 pip install networkx
 ```
 ```bash
