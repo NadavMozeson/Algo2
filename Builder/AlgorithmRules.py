@@ -34,7 +34,7 @@ class AlgoRulesList:
     def __init__(self):
         self.BFS: AlgoRule = AlgoRule(name='BFS', node_class=NodeWColor, directional=None, circular=True, weights=False, flow=False)
         self.DFS: AlgoRule = AlgoRule(name='DFS', node_class=NodeWColorFinish, directional=None, circular=True, weights=False, flow=False)
-        self.TopologicSort: AlgoRule = AlgoRule(name='Topologic Sort', node_class=NodeWColor, directional=True, circular=False, weights=False, flow=False)
+        self.TopologicSort: AlgoRule = AlgoRule(name='Topologic Sort', node_class=NodeWColorFinish, directional=True, circular=False, weights=False, flow=False)
         self.KosarajuSharir: AlgoRule = AlgoRule(name='Kosaraju-Sharir', node_class=NodeWColorFinish, directional=True, circular=True, weights=False, flow=False)
         self.Kruskal: AlgoRule = AlgoRule(name='Kruskal', node_class=Node, directional=False, circular=True, weights=True, flow=False)
         self.Prim: AlgoRule = AlgoRule(name='Prim', node_class=Node, directional=False, circular=True, weights=True, flow=False)
