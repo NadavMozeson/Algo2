@@ -12,6 +12,7 @@ from Algorithms.FordFulkerson import Ford_Flukerson
 from Algorithms.EdmondsKarp import Edmonds_Karp
 from Builder.GraphCreator import Node, NodeWColor, NodeWColorFinish, Graph
 from typing import Dict, Tuple, Set
+from Classes.DDS import DDS
 
 class AlgoRule:
     def __init__(self, name, node_class, directional, circular, weights, flow):
@@ -54,10 +55,14 @@ class AlgoScripts:
 
     def dfs_call(self):
         DFS(g=self.G)
+        print_tree_from_result(self.G)
         self.G.print_matrix()
 
     def topologic_call(self):
-        print(topologic_sort(G=self.G))
+        result_sort = topologic_sort(G=self.G)
+        print_tree_from_result(self.G)
+        self.G.print_matrix()
+        print(result_sort)
 
     def kosaraju_sharir_call(self):
         result = KosarajuSharir(G=self.G)
@@ -124,6 +129,14 @@ def convert_flow_function_to_graph(func: Dict[Tuple[Node, Node], int]):
             result_graph.add_line(u.label, v.label, func[(u, v)])
     return result_graph
 
+def print_tree_from_result(G: Graph):
+    forest = DDS()
+    for node in G.nodes:
+        forest.make_set(node)
+    for node in G.nodes:
+        if node.pie is not None:
+            forest.merge(node, node.pie)
+    forest.print_dds_tree()
 
 SCRIPTS = AlgoScripts()
 RULES = AlgoRulesList()
