@@ -247,6 +247,9 @@ class FlowGraph:
         self.s: Node = None
         self.t: Node = None
 
+    def __repr__(self):
+        return f"Flow graph with Nodes:{self.N.nodes}"
+
     def copy(self, N, s, t):
         self.N = N
         self.s = s
