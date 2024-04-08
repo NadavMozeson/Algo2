@@ -1,6 +1,7 @@
 from Builder.AlgorithmRules import *
 from Builder.GraphCreator import Graph
 
+
 class Algorithms:
     ALGOS = {
         "BFS": {
@@ -62,5 +63,6 @@ class Algorithms:
 
     def get_algorithms_names(self):
         return list(self.ALGOS.keys())
+
 
 ALGORITHMS = Algorithms()

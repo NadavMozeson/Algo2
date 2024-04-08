@@ -1,6 +1,7 @@
 from Builder.GraphCreator import Graph, Node
 from Classes.DDS import *
 
+
 def weight_function(u: Node, v: Node):
     return u.adjacent_nodes[v]
 

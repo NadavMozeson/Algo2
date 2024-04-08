@@ -243,7 +243,8 @@ class Graph:
             for adj_node, weight in node.adjacent_nodes.items():
                 graph.add_edge(node.label, adj_node.label)
         pos = nx.circular_layout(graph)
-        nx.draw(graph, pos=pos, node_color='lightgreen', with_labels=True, node_size=1000, width=3.0, arrowsize=25, font_size=20)
+        nx.draw(graph, pos=pos, node_color='lightgreen', with_labels=True, node_size=1000, width=3.0, arrowsize=25,
+                font_size=20)
         plt.show()
 
 

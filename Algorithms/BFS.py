@@ -1,6 +1,7 @@
 from Builder.GraphCreator import Graph, Node
 from Classes.CustomQueue import CustomQueue
 
+
 def BFS(g: Graph, s: Node):
     for v in g.nodes:
         v.d = float('inf')

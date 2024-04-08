@@ -2,6 +2,7 @@ from Builder.GraphCreator import Graph, Node
 
 time = 0
 
+
 def topologic_sort(G: Graph):
     stack = []
 
@@ -30,4 +31,3 @@ def topologic_sort(G: Graph):
 
     DFS(G)
     return [stack.pop() for _ in range(len(stack))]
-

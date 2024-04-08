@@ -6,12 +6,14 @@ from sys import gettrace
 def capacity(Nf: FlowGraph, u: Node, v: Node):
     return Nf.c[(u, v)]
 
+
 def check_exists_path(Nf: FlowGraph):
     path = get_path(Nf)
     if (len(path) == 0) or (Nf.s not in [x[0] for x in path]):
         return False
     else:
         return True
+
 
 def get_path(Nf: FlowGraph):
     DFS(g=Nf.N)
@@ -23,11 +25,13 @@ def get_path(Nf: FlowGraph):
         t = t.pie
     return path[::-1]
 
+
 def get_minimum_capacity(Nf: FlowGraph, path):
     min_value = float('inf')
     for u, v in path:
         min_value = min(capacity(Nf, u, v), min_value)
     return min_value
+
 
 def Ford_Flukerson(G: Graph, s: Node, t: Node, c=capacity):
     Nf = FlowGraph()

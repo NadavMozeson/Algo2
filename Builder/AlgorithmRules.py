@@ -14,6 +14,7 @@ from Builder.GraphCreator import Node, NodeWColor, NodeWColorFinish, Graph
 from typing import Dict, Tuple, Set
 from Classes.DDS import DDS
 
+
 class AlgoRule:
     def __init__(self, name, node_class, directional, circular, weights, flow):
         """
@@ -30,20 +31,34 @@ class AlgoRule:
         self.weights: bool = weights
         self.flow: bool = flow
 
+
 class AlgoRulesList:
     def __init__(self):
-        self.BFS: AlgoRule = AlgoRule(name='BFS', node_class=NodeWColor, directional=None, circular=True, weights=False, flow=False)
-        self.DFS: AlgoRule = AlgoRule(name='DFS', node_class=NodeWColorFinish, directional=None, circular=True, weights=False, flow=False)
-        self.TopologicSort: AlgoRule = AlgoRule(name='Topologic Sort', node_class=NodeWColorFinish, directional=True, circular=False, weights=False, flow=False)
-        self.KosarajuSharir: AlgoRule = AlgoRule(name='Kosaraju-Sharir', node_class=NodeWColorFinish, directional=True, circular=True, weights=False, flow=False)
-        self.Kruskal: AlgoRule = AlgoRule(name='Kruskal', node_class=Node, directional=False, circular=True, weights=True, flow=False)
-        self.Prim: AlgoRule = AlgoRule(name='Prim', node_class=Node, directional=False, circular=True, weights=True, flow=False)
-        self.Dijkstra: AlgoRule = AlgoRule(name='Dijkstra', node_class=Node, directional=None, circular=True, weights=True, flow=False)
-        self.BellmanFord: AlgoRule = AlgoRule(name='Bellman-Ford', node_class=Node, directional=True, circular=True, weights=True, flow=False)
-        self.FloydWarshall: AlgoRule = AlgoRule(name='Floyd-Warshall', node_class=Node, directional=True, circular=True, weights=True, flow=False)
-        self.DAGShortestPath: AlgoRule = AlgoRule(name='DAG Shortest Path', node_class=Node, directional=True, circular=False, weights=True, flow=False)
-        self.FordFulkerson: AlgoRule = AlgoRule(name='Ford-Fulkerson', node_class=NodeWColorFinish, directional=True, circular=True, weights=True, flow=True)
-        self.EdmondsKarp: AlgoRule = AlgoRule(name='Edmonds-Karp', node_class=NodeWColor, directional=True, circular=True, weights=True, flow=True)
+        self.BFS: AlgoRule = AlgoRule(name='BFS', node_class=NodeWColor, directional=None, circular=True, weights=False,
+                                      flow=False)
+        self.DFS: AlgoRule = AlgoRule(name='DFS', node_class=NodeWColorFinish, directional=None, circular=True,
+                                      weights=False, flow=False)
+        self.TopologicSort: AlgoRule = AlgoRule(name='Topologic Sort', node_class=NodeWColorFinish, directional=True,
+                                                circular=False, weights=False, flow=False)
+        self.KosarajuSharir: AlgoRule = AlgoRule(name='Kosaraju-Sharir', node_class=NodeWColorFinish, directional=True,
+                                                 circular=True, weights=False, flow=False)
+        self.Kruskal: AlgoRule = AlgoRule(name='Kruskal', node_class=Node, directional=False, circular=True,
+                                          weights=True, flow=False)
+        self.Prim: AlgoRule = AlgoRule(name='Prim', node_class=Node, directional=False, circular=True, weights=True,
+                                       flow=False)
+        self.Dijkstra: AlgoRule = AlgoRule(name='Dijkstra', node_class=Node, directional=None, circular=True,
+                                           weights=True, flow=False)
+        self.BellmanFord: AlgoRule = AlgoRule(name='Bellman-Ford', node_class=Node, directional=True, circular=True,
+                                              weights=True, flow=False)
+        self.FloydWarshall: AlgoRule = AlgoRule(name='Floyd-Warshall', node_class=Node, directional=True, circular=True,
+                                                weights=True, flow=False)
+        self.DAGShortestPath: AlgoRule = AlgoRule(name='DAG Shortest Path', node_class=Node, directional=True,
+                                                  circular=False, weights=True, flow=False)
+        self.FordFulkerson: AlgoRule = AlgoRule(name='Ford-Fulkerson', node_class=NodeWColorFinish, directional=True,
+                                                circular=True, weights=True, flow=True)
+        self.EdmondsKarp: AlgoRule = AlgoRule(name='Edmonds-Karp', node_class=NodeWColor, directional=True,
+                                              circular=True, weights=True, flow=True)
+
 
 class AlgoScripts:
     def __init__(self, graph: Graph = None):
@@ -117,6 +132,7 @@ class AlgoScripts:
         result_graph = convert_flow_function_to_graph(flow_function)
         result_graph.display()
 
+
 def convert_flow_function_to_graph(func: Dict[Tuple[Node, Node], int]):
     result_graph = Graph(directed=True, weighted=True, flow=False, NodeClass=Node)
     nodes: Set[Node] = set()
@@ -128,6 +144,7 @@ def convert_flow_function_to_graph(func: Dict[Tuple[Node, Node], int]):
         if func[(u, v)] > 0:
             result_graph.add_line(u.label, v.label, func[(u, v)])
     return result_graph
+
 
 SCRIPTS = AlgoScripts()
 RULES = AlgoRulesList()

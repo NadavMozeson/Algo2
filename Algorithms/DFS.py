@@ -2,6 +2,7 @@ from Builder.GraphCreator import Graph, Node
 
 time = 0
 
+
 def DFS(g: Graph):
     for v in g.nodes:
         v.pie = None

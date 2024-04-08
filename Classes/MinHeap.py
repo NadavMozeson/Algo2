@@ -1,7 +1,9 @@
 from Builder.GraphCreator import Node
 
+
 def compare_nodes(node1, node2):
     return node1.d < node2.d
+
 
 class MinHeap:
     def __init__(self):

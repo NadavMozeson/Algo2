@@ -4,6 +4,7 @@ from os.path import dirname, realpath, basename
 from Builder.AlgorithmRules import *
 from Builder.Algorithms import *
 
+
 class UserInput:
     def __init__(self, generation_method, algorithm, nodes, directed, weight, save, filename, loaded_filename):
         self.generation_method = generation_method
@@ -17,6 +18,7 @@ class UserInput:
 
     def __str__(self):
         return f"UserInput: Method={self.generation_method}, Algorithm={self.algorithm}, Nodes={self.nodes_amount}, Directed={self.is_directed}, Weights={self.has_weight}, Save={self.save}, Load={self.save}, Filename={self.filename}, Loaded Filename={self.loaded_filename}"
+
 
 class GraphCreatorApp:
     def __init__(self, root):
@@ -43,14 +45,16 @@ class GraphCreatorApp:
         self.algorithm_label = tk.Label(self.root, text="Algorithm Picker:")
         self.algorithm_label.pack()
 
-        self.algorithm_dropdown = ttk.Combobox(self.root, textvariable=self.algorithm_var, values=ALGORITHMS.get_algorithms_names())
+        self.algorithm_dropdown = ttk.Combobox(self.root, textvariable=self.algorithm_var,
+                                               values=ALGORITHMS.get_algorithms_names())
         self.algorithm_dropdown.pack()
 
         self.next_button = tk.Button(self.root, text="Next", command=self.move_to_section2)
         self.next_button.pack()
 
     def load_graph(self):
-        self.loaded_filename = basename(filedialog.askopenfilename(title="Select Graph File", initialdir=dirname(dirname(realpath(__file__))) + '/Graphs'))
+        self.loaded_filename = basename(filedialog.askopenfilename(title="Select Graph File", initialdir=dirname(
+            dirname(realpath(__file__))) + '/Graphs'))
         if self.loaded_filename:
             messagebox.showinfo("Info", f"Graph loaded from file: {self.loaded_filename}")
             self.submit_data()
@@ -108,7 +112,8 @@ class GraphCreatorApp:
         self.nodes_entry.pack()
 
         if self.rules.directional is None:
-            self.directed_checkbox = tk.Checkbutton(self.root, text="Is the graph directed?", variable=self.directed_var)
+            self.directed_checkbox = tk.Checkbutton(self.root, text="Is the graph directed?",
+                                                    variable=self.directed_var)
             self.directed_checkbox.pack()
         else:
             self.directed_var = self.rules.directional
@@ -120,7 +125,8 @@ class GraphCreatorApp:
     def show_draw_fields(self):
         self.remove_random_fields()
         if self.rules.directional is None:
-            self.directed_checkbox = tk.Checkbutton(self.root, text="Is the graph directed?", variable=self.directed_var)
+            self.directed_checkbox = tk.Checkbutton(self.root, text="Is the graph directed?",
+                                                    variable=self.directed_var)
             self.directed_checkbox.pack()
         else:
             self.directed_var = self.rules.directional
@@ -155,7 +161,7 @@ class GraphCreatorApp:
         if hasattr(self, 'directed_checkbox'):
             self.directed_checkbox.pack_forget()
         # if hasattr(self, 'weight_checkbox'):
-            # self.weight_checkbox.pack_forget()
+        # self.weight_checkbox.pack_forget()
 
     def submit_data(self):
         algorithm = self.algorithm_var.get()

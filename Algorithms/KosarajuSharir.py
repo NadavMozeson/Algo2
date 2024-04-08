@@ -23,7 +23,7 @@ def KosarajuSharir(G: Graph):
             DFS_VISIT(v, tree)
             trees.append(tree)
 
-    forest = DDS()
+    forest = Graph()
     forest.array_to_DDS(trees)
     return forest
 
@@ -39,9 +39,11 @@ def transpose_graph(G: Graph):
 
     return new_graph
 
+
 def set_nodes_white(G: Graph):
     for node in G.nodes:
         node.color = "White"
+
 
 def DFS_VISIT(u: Node, stack):
     global time
