@@ -14,6 +14,7 @@ A simple and visualized method to track and understand the following algorithms.
 
 ## Installation
 
+### Required Python version: 3.11
 Use pip to install the required libraries used to run the code.
 ### Install commands for libraries:
 
